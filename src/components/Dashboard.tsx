@@ -21,6 +21,9 @@ import {
 import { toast } from "@/hooks/use-toast";
 import UserManagement from './UserManagement';
 import GateManagement from './GateManagement';
+import CameraMonitoring from './CameraMonitoring';
+import GateControlWidget from './widgets/GateControlWidget';
+import CameraWidget from './widgets/CameraWidget';
 
 interface AccessRecord {
   id: string;
@@ -42,7 +45,7 @@ interface Notification {
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
-  const [currentView, setCurrentView] = useState<'dashboard' | 'users' | 'gates'>('dashboard');
+  const [currentView, setCurrentView] = useState<'dashboard' | 'users' | 'gates' | 'cameras'>('dashboard');
   const [isGateOpen, setIsGateOpen] = useState(false);
   const [gateLoading, setGateLoading] = useState(false);
   const [showCamera, setShowCamera] = useState(false);
@@ -164,6 +167,10 @@ const Dashboard = () => {
     return <GateManagement onBack={() => setCurrentView('dashboard')} />;
   }
 
+  if (currentView === 'cameras') {
+    return <CameraMonitoring onBack={() => setCurrentView('dashboard')} />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -211,54 +218,39 @@ const Dashboard = () => {
       </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="port-card hover:shadow-lg cursor-pointer" onClick={handleOpenGate}>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Controle de Acesso</p>
-                  <p className="text-2xl font-bold text-gray-900">Portão</p>
-                </div>
-                <Button
-                  className={`port-button-${isGateOpen ? 'danger' : 'success'}`}
-                  disabled={gateLoading}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleOpenGate();
-                  }}
-                >
-                  {gateLoading ? (
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
-                  ) : (
-                    <DoorOpen className="h-4 w-4" />
-                  )}
-                  {gateLoading ? 'Abrindo...' : isGateOpen ? 'Aberto' : 'Abrir'}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
+        {/* Widgets Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          {/* Gate Control Widget */}
+          <GateControlWidget />
+          
+          {/* Camera Monitoring Widget */}
+          <CameraWidget onExpand={() => setCurrentView('cameras')} />
+          
+          {/* Quick Stats Widget */}
           <Card className="port-card hover:shadow-lg cursor-pointer" onClick={() => setCurrentView('gates')}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Gerenciar</p>
-                  <p className="text-2xl font-bold text-gray-900">Portões</p>
+                  <p className="text-sm font-medium text-gray-600">Portões</p>
+                  <p className="text-2xl font-bold text-gray-900">3</p>
+                  <p className="text-xs text-gray-500">2 online, 1 offline</p>
                 </div>
                 <Button className="port-button-primary">
                   <DoorOpen className="h-4 w-4" />
-                  Controlar
+                  Gerenciar
                 </Button>
               </div>
             </CardContent>
           </Card>
+        </div>
 
+        {/* Quick Actions - Existing cards but reorganized */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card className="port-card hover:shadow-lg cursor-pointer" onClick={() => setShowCamera(true)}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Monitoramento</p>
+                  <p className="text-sm font-medium text-gray-600">Visualização</p>
                   <p className="text-2xl font-bold text-gray-900">Câmeras</p>
                 </div>
                 <Button className="port-button-primary">
@@ -301,6 +293,18 @@ const Dashboard = () => {
                     </div>
                   )}
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="port-card">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Sistema</p>
+                  <p className="text-2xl font-bold text-gray-900">Online</p>
+                </div>
+                <Shield className="h-8 w-8 text-green-600" />
               </div>
             </CardContent>
           </Card>
