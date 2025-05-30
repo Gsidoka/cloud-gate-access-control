@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,9 +15,12 @@ import {
   Shield,
   AlertCircle,
   CheckCircle,
-  Home
+  Home,
+  ArrowLeft
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import UserManagement from './UserManagement';
+import GateManagement from './GateManagement';
 
 interface AccessRecord {
   id: string;
@@ -40,6 +42,7 @@ interface Notification {
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
+  const [currentView, setCurrentView] = useState<'dashboard' | 'users' | 'gates'>('dashboard');
   const [isGateOpen, setIsGateOpen] = useState(false);
   const [gateLoading, setGateLoading] = useState(false);
   const [showCamera, setShowCamera] = useState(false);
@@ -153,6 +156,14 @@ const Dashboard = () => {
     return date.toLocaleDateString('pt-BR');
   };
 
+  if (currentView === 'users') {
+    return <UserManagement onBack={() => setCurrentView('dashboard')} />;
+  }
+
+  if (currentView === 'gates') {
+    return <GateManagement onBack={() => setCurrentView('dashboard')} />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -228,6 +239,21 @@ const Dashboard = () => {
             </CardContent>
           </Card>
 
+          <Card className="port-card hover:shadow-lg cursor-pointer" onClick={() => setCurrentView('gates')}>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Gerenciar</p>
+                  <p className="text-2xl font-bold text-gray-900">Portões</p>
+                </div>
+                <Button className="port-button-primary">
+                  <DoorOpen className="h-4 w-4" />
+                  Controlar
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
           <Card className="port-card hover:shadow-lg cursor-pointer" onClick={() => setShowCamera(true)}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
@@ -242,6 +268,23 @@ const Dashboard = () => {
               </div>
             </CardContent>
           </Card>
+
+          {user?.role === 'administrador' && (
+            <Card className="port-card hover:shadow-lg cursor-pointer" onClick={() => setCurrentView('users')}>
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">Usuários</p>
+                    <p className="text-2xl font-bold text-gray-900">24</p>
+                  </div>
+                  <Button className="port-button-secondary">
+                    <Users className="h-4 w-4" />
+                    Gerenciar
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           <Card className="port-card">
             <CardContent className="p-6">
@@ -261,23 +304,6 @@ const Dashboard = () => {
               </div>
             </CardContent>
           </Card>
-
-          {user?.role === 'administrador' && (
-            <Card className="port-card hover:shadow-lg cursor-pointer">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Usuários</p>
-                    <p className="text-2xl font-bold text-gray-900">24</p>
-                  </div>
-                  <Button className="port-button-secondary">
-                    <Users className="h-4 w-4" />
-                    Gerenciar
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
