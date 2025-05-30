@@ -262,40 +262,8 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Quick Actions - Existing cards but reorganized */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="port-card hover:shadow-lg cursor-pointer" onClick={() => setShowCamera(true)}>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Visualização</p>
-                  <p className="text-2xl font-bold text-gray-900">Câmeras</p>
-                </div>
-                <Button className="port-button-primary">
-                  <Camera className="h-4 w-4" />
-                  Ver
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {user?.role === 'administrador' && (
-            <Card className="port-card hover:shadow-lg cursor-pointer" onClick={() => setCurrentView('users')}>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Usuários</p>
-                    <p className="text-2xl font-bold text-gray-900">24</p>
-                  </div>
-                  <Button className="port-button-secondary">
-                    <Users className="h-4 w-4" />
-                    Gerenciar
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
+        {/* Status Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           <Card className="port-card">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
@@ -314,6 +282,20 @@ const Dashboard = () => {
               </div>
             </CardContent>
           </Card>
+
+          {user?.role === 'administrador' && (
+            <Card className="port-card">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">Usuários</p>
+                    <p className="text-2xl font-bold text-gray-900">24</p>
+                  </div>
+                  <Users className="h-8 w-8 text-purple-600" />
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           <Card className="port-card">
             <CardContent className="p-6">
