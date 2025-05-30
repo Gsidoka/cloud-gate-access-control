@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -13,7 +12,7 @@ import {
   ZoomOut, 
   Volume2, 
   VolumeX, 
-  Record, 
+  Circle, 
   Download,
   Settings,
   Maximize,
@@ -187,7 +186,7 @@ const CameraMonitoring = ({ onBack }: CameraMonitoringProps) => {
                   <p className="text-sm font-medium text-gray-600">Gravando</p>
                   <p className="text-2xl font-bold text-gray-900">{recordingCameras}</p>
                 </div>
-                <Record className="h-8 w-8 text-red-600" />
+                <Circle className="h-8 w-8 text-red-600" />
               </div>
             </CardContent>
           </Card>
@@ -233,7 +232,7 @@ const CameraMonitoring = ({ onBack }: CameraMonitoringProps) => {
                       <div className="flex items-center gap-2 text-xs text-gray-500">
                         <Badge variant="outline">{camera.quality}</Badge>
                         {camera.hasAudio && <Volume2 className="h-3 w-3" />}
-                        {camera.isRecording && <Record className="h-3 w-3 text-red-500" />}
+                        {camera.isRecording && <Circle className="h-3 w-3 text-red-500" />}
                       </div>
                     </div>
                   ))}
@@ -303,7 +302,7 @@ const CameraMonitoring = ({ onBack }: CameraMonitoringProps) => {
                           {selectedCameraData.isRecording ? (
                             <Pause className="h-4 w-4" />
                           ) : (
-                            <Record className="h-4 w-4" />
+                            <Circle className="h-4 w-4" />
                           )}
                           {selectedCameraData.isRecording ? 'Pausar' : 'Gravar'}
                         </Button>

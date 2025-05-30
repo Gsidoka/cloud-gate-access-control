@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Camera, Play, Maximize, Wifi, WifiOff, Record } from "lucide-react";
+import { Camera, Play, Maximize, Wifi, WifiOff, Circle } from "lucide-react";
 
 interface CameraWidgetProps {
   onExpand: () => void;
