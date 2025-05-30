@@ -58,40 +58,25 @@ const GateControlWidget = ({
 
   return (
     <Card className="port-card hover:shadow-lg transition-shadow">
-      <CardContent className="p-6">
-        <div className="text-center space-y-4">
-          <div className={`mx-auto w-16 h-16 rounded-full flex items-center justify-center ${
-            isGateOpen ? 'bg-red-100' : 'bg-green-100'
-          }`}>
-            {isGateOpen ? (
-              <DoorOpen className={`h-8 w-8 ${isGateOpen ? 'text-red-600' : 'text-green-600'}`} />
-            ) : (
-              <DoorClosed className={`h-8 w-8 ${isGateOpen ? 'text-red-600' : 'text-green-600'}`} />
-            )}
-          </div>
-          
-          <div>
-            <h3 className="font-semibold text-gray-900">{gateName}</h3>
-            <p className="text-sm text-gray-600">
-              Status: <span className={`font-medium ${isGateOpen ? 'text-red-600' : 'text-green-600'}`}>
-                {isGateOpen ? 'Aberto' : 'Fechado'}
-              </span>
-            </p>
-          </div>
-
+      <CardContent className="p-3">
+        <div className="text-center">
           <Button
-            className={`w-full port-button-${isGateOpen ? 'danger' : 'success'}`}
+            variant="ghost"
+            size="sm"
+            className="w-full h-12 flex flex-col items-center justify-center gap-1"
             onClick={handleToggleGate}
             disabled={gateLoading}
           >
             {gateLoading ? (
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-400" />
             ) : isGateOpen ? (
-              <DoorClosed className="h-4 w-4" />
+              <DoorOpen className="h-6 w-6 text-red-600" />
             ) : (
-              <DoorOpen className="h-4 w-4" />
+              <DoorClosed className="h-6 w-6 text-green-600" />
             )}
-            {gateLoading ? 'Operando...' : isGateOpen ? 'Fechar' : 'Abrir'}
+            <span className="text-xs font-medium">
+              {gateLoading ? 'Carregando' : isGateOpen ? 'Fechar' : 'Abrir'}
+            </span>
           </Button>
         </div>
       </CardContent>

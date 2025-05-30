@@ -218,30 +218,48 @@ const Dashboard = () => {
       </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Widgets Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {/* Gate Control Widget */}
-          <GateControlWidget />
-          
-          {/* Camera Monitoring Widget */}
-          <CameraWidget onExpand={() => setCurrentView('cameras')} />
-          
-          {/* Quick Stats Widget */}
-          <Card className="port-card hover:shadow-lg cursor-pointer" onClick={() => setCurrentView('gates')}>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Portões</p>
-                  <p className="text-2xl font-bold text-gray-900">3</p>
-                  <p className="text-xs text-gray-500">2 online, 1 offline</p>
+        {/* Compact Widgets Section - Top Icons */}
+        <div className="flex justify-center gap-4 mb-8">
+          <div className="w-24">
+            <GateControlWidget />
+          </div>
+          <div className="w-24">
+            <CameraWidget onExpand={() => setCurrentView('cameras')} />
+          </div>
+          {user?.role === 'administrador' && (
+            <div className="w-24">
+              <Card className="port-card hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentView('users')}>
+                <CardContent className="p-3">
+                  <div className="text-center">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-full h-12 flex flex-col items-center justify-center gap-1"
+                    >
+                      <Users className="h-6 w-6 text-purple-600" />
+                      <span className="text-xs font-medium">Usuários</span>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+          <div className="w-24">
+            <Card className="port-card hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentView('gates')}>
+              <CardContent className="p-3">
+                <div className="text-center">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full h-12 flex flex-col items-center justify-center gap-1"
+                  >
+                    <Settings className="h-6 w-6 text-gray-600" />
+                    <span className="text-xs font-medium">Portões</span>
+                  </Button>
                 </div>
-                <Button className="port-button-primary">
-                  <DoorOpen className="h-4 w-4" />
-                  Gerenciar
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         {/* Quick Actions - Existing cards but reorganized */}
